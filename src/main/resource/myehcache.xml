@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ehcache.xsd"
+         updateCheck="false" monitoring="autodetect" dynamicConfig="true">
+    <!--Default Cache configuration. These will be applied to caches programmatically created through the CacheManager.
+       The following attributes are required for defaultCache:
+       maxInMemory       - Sets the maximum number of objects that will be created in memory
+       eternal           - Sets whether elements are eternal. If eternal,  timeouts are ignored and the element is never expired.
+       timeToIdleSeconds - Sets the time to idle for an element before it expires.
+                           i.e. The maximum amount of time between accesses before an element expires
+                           Is only used if the element is not eternal.
+                           Optional attribute. A value of 0 means that an Element can idle for infinity
+       timeToLiveSeconds - Sets the time to live for an element before it expires.
+                           i.e. The maximum time between creation time and when an element expires.
+                           Is only used if the element is not eternal.
+       overflowToDisk    - Sets whether elements can overflow to disk when the in-memory cache
+                           has reached the maxInMemory limit.
+    -->
+
+    <diskStore path="java.io.tmpdir"/>
+    <defaultCache maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="3600" timeToLiveSeconds="7200"
+            overflowToDisk="false"/>
+
+    <cache name="com.howzit.java.model.UserEntity" maxElementsInMemory="100"
+           eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false"/>
+
+    <cache name="com.howzit.java.model.LoginStatusEntity" maxElementsInMemory="100"
+           eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false"/>
+
+    <cache name="com.howzit.java.model.master.Role" maxElementsInMemory="30000" eternal="true"
+           timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false"/>
+
+    <cache name="com.howzit.java.model.CategoryEntity" maxElementsInMemory="30000" eternal="true"
+           timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false"/>
+
+    <cache name="com.howzit.java.model.ActivityAreaEntity" maxElementsInMemory="100"
+           eternal="true" timeToIdleSeconds="20" timeToLiveSeconds="20" overflowToDisk="false"/>
+
+    <cache name="com.howzit.java.model.ActivityEntity" maxElementsInMemory="30000" eternal="true"
+           timeToIdleSeconds="0" timeToLiveSeconds="0" overflowToDisk="false"/>
+
+</ehcache>

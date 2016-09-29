@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans:beans xmlns='http://www.springframework.org/schema/security'
+             xmlns:beans='http://www.springframework.org/schema/beans'
+             xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+             xsi:schemaLocation='http://www.springframework.org/schema/beans
+                                 http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                                 http://www.springframework.org/schema/security
+                                 http://www.springframework.org/schema/security/spring-security-3.2.xsd'>
+
+    <beans:import resource='applicationContext-resources.xml'/>
+    <http auto-config="true">
+        <intercept-url pattern="/auth/**/*" access="ROLE_ADMIN,ROLE_USER"/>
+        <intercept-url pattern="/auth/*" access="ROLE_ADMIN,ROLE_USER"/>
+        <form-login login-page='/login.html'
+                    authentication-success-handler-ref="authenticationService"
+                    authentication-failure-url='/login.html?error=true'
+                    authentication-failure-handler-ref="authenticationService" default-target-url="/auth/home.html"/>
+        <logout logout-success-url='/login.html' delete-cookies="true" logout-url="/j_spring_security_logout"/>
+    </http>
+    <authentication-manager>
+        <authentication-provider ref="authenticationProvider"/>
+    </authentication-manager>
+
+    <beans:bean id="authenticationProvider"
+                class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+        <beans:property name="userDetailsService" ref="userBL"/>
+        <beans:property name="passwordEncoder" ref="passwordEncoder"/>
+        <beans:property name="saltSource" ref="saltSource"/>
+    </beans:bean>
+
+    <beans:bean id="authenticationService" class="com.howzit.java.security.Authentication">
+        <beans:property name="logoutUrl" value="j_spring_security_logout"/>
+    </beans:bean>
+    <beans:bean id="passwordEncoder" class="com.howzit.java.security.PasswordEncoder"/>
+    <beans:bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+        <beans:property name="userPropertyToUse" value="salt"/>
+    </beans:bean>
+</beans:beans>
